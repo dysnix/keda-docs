@@ -18,11 +18,11 @@ triggers:
     # Required fields:
     predictHorizon: "2h"
     historyTimeWindow: "7d"
-    prometheusAddress: https://ptmp.eu-pancakeswap.dysnix.org
+    prometheusAddress: http://<prometheus-host>:9090
     metricName: http_requests_total # Note: name to identify the metric, generated value would be `prometheus-http_requests_total`
-    query: sum(irate(nginx_http_requests_total{pod=~".*bsc.*", cluster="", namespace=~"bsc"}[2m])) # Note: query must return a vector/scalar single element response
+    query: sum(rate(http_requests_total{deployment="my-deployment"}[2m])) # Note: query must return a vector/scalar single element response
     queryStep: "2m" # Note: query step duration for range prometheus queries
-    threshold: '2000' # max rps per replica
+    threshold: '100'
 ```
 
 **Parameter list:**
@@ -75,7 +75,7 @@ metadata:
   namespace: some-namespace
 spec:
   scaleTargetRef:
-    name: <some-controller-name>
+    name: my-deployment
     kind: StatefulSet
   pollingInterval: 30
   cooldownPeriod: 7200
@@ -86,11 +86,11 @@ spec:
     metadata:
       predictHorizon: "2h"
       historyTimeWindow: "7d"
-      prometheusAddress: https://<some-prometheus-server-url>
+      prometheusAddress: http://<prometheus-host>:9090
       metricName: http_requests_total # Note: name to identify the metric, generated value would be `prometheus-http_requests_total`
-      query: sum(irate(nginx_http_requests_total{pod=~".*some-controller-name.*", cluster="", namespace=~"some-namespace"}[2m])) # Note: query must return a vector/scalar single element response
+      query: sum(rate(http_requests_total{deployment="my-deployment"}[2m])) # Note: query must return a vector/scalar single element response
       queryStep: "2m" # Note: query step duration for range prometheus queries
-      threshold: '2000' # max rps per replica
+      threshold: '100'
     authenticationRef:
       name: keda-trigger-auth-predictkube-secret
 ```
