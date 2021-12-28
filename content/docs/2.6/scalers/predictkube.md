@@ -9,7 +9,7 @@ go_file = "predictkube_scaler"
 
 ### Trigger Specification
 
-This specification describes the `predictkube` trigger that scales based on a predicting load based on a `prometheus` metrics.
+This specification describes the `predictkube` trigger that scales based on a predicting load based on `prometheus` metrics.
 
 ```yaml
 triggers:
@@ -28,11 +28,11 @@ triggers:
 **Parameter list:**
 
 - `predictHorizon` - Prediction time interval. It is usually equal to the cool-down period of your application.
-- `historyTimeWindow` - Time range for which to request metrics from Prometheus. We recomend to use minimum 7-14 days time window as historical data.
+- `historyTimeWindow` - Time range for which to request metrics from Prometheus. We recommend using minimum 7-14 days time window as historical data.
 - `prometheusAddress` - Address of Prometheus server.
-- `metricName` - Name to identify the Metric in the external.metrics.k8s.io API. If using more than one trigger it is required that all `metricName`(s) be unique.
-- `query` - Predict query that will yield the value for the scaler to compare the `threshold` against. Query must return a vector/scalar single element response
-- `queryStep` - The maximum time between two slices within the boundaries for QML range query, used in query.
+- `metricName` - Name to identify the Metric in the external.metrics.k8s.io API. API. If using more than one trigger it is required that all `metricName`(s) be unique.
+- `query` - Predict the query that will yield the value for the scaler to compare against the `threshold`. The query must return a vector/scalar single element response.
+- `queryStep` - The maximum time between two slices within the boundaries for QML range query, used in the query.
 - `threshold` - Value to start scaling for.
 
 ### Authentication Parameters
@@ -41,7 +41,7 @@ Predictkube Scaler supports one type of authentication - authentication by API k
 
 **Auth gateway based authentication:**
 
-- `apiKey` - Api key previously issued for this tenant.
+- `apiKey` - API key previously issued for this tenant.
 
 ### Example
 
